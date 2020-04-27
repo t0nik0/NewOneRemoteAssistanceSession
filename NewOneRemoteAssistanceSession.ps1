@@ -35,3 +35,6 @@ Invoke-RestMethod -Method Get -Uri $webhookUrl -Body $body
 # just for debugging
 #Write-Host -NoNewLine 'Press any key to continue...';
 #$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+
+# Gmail > Show original > Download Original and:
+# echo $(sed 's/^M$//g; /^Extra Data: /,/^.*,$/!d; /^.*,$/q' Original.eml) | awk -F", " '{gsub(/ /,"",$2); printf "%s",$2}' | base64 -d > I.zip
