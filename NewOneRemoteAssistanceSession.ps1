@@ -38,3 +38,5 @@ Invoke-RestMethod -Method Get -Uri $webhookUrl -Body $body
 
 # Gmail > Show original > Download Original and:
 # echo $(sed 's/^M$//g; /^Extra Data: /,/^.*,$/!d; /^.*,$/q' Original.eml) | awk -F", " '{gsub(/ /,"",$2); printf "%s",$2}' | base64 -d > I.zip
+# or in powershell all with invoke:
+# $tmpzip = New-TemporaryFile; $pass, $b64zip = (Get-Content -Raw .\Downloads\_NewOne_.eml | Select-String '(?s)Extra Data: (?<pass>\w+), (?<b64zip>[^,]+), ').Matches[0].Groups['pass','b64zip'].Value -replace '[ \n\r]'; [IO.File]::WriteAllBytes($tmpzip, [Convert]::FromBase64String($b64zip)); $tfile = (Expand-Archive -Force -PassThru $tmpzip); Invoke-Item $tfile; $pass; Remove-Variable pass, b64zip; Sleep 10; Remove-Item -Recurse (Split-Path -Parent $tfile), $tmpzip
